@@ -43,17 +43,10 @@ def snomed(df1, hug_data, df5):
 
 
     for id, i in enumerate(df5.iloc):
-        for ecl in i["ecl_query"]:
-            if isinstance(ecl, str):
-                ecl_res=get_results_from_ecl(ecl)
-                query_ecl_dict[i["sous-question"]] = [it["conceptId"] for it in ecl_res.get("items",[])]
-                #print(f"\n---\n{[it['conceptId'] for it in ecl_res.get('items',[])]}\n--\n")
-                #print(f"\n--\n{[it['conceptId'] for it in ecl_res['items']]}\n---\n")
-                try:
-                    print(f"\n---\n{[it['conceptId'] for it in ecl_res['items']]}\n---\n")
-                except:
-                    print(ecl_res)
-                    raise(ValueError)
+        ecl = i["ecl_query"]
+        if isinstance(ecl, str):
+            ecl_res=get_results_from_ecl(str(ecl))
+            query_ecl_dict[i["sous-question"]] = [it['conceptId'] for it in ecl_res['items']]
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"Step1_api_ecl.json","w")
     json.dump(query_ecl_dict, f)
 
@@ -143,6 +136,8 @@ def icd_search(df0, df4):
                         dict_icd[row["sous-question"]].append(r["HUG_LABEL_FR"])
                     else:
                         dict_icd[row["sous-question"]] = [r["HUG_LABEL_FR"]]
+            else:
+                dict_icd[row["sous-question"]] = []
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"ICD_search.json","w")
     json.dump(dict_icd, f)
     print("étape ICD")
@@ -168,7 +163,7 @@ if __name__ == '__main__':
     #hugdata()       
 
     
-    #snomed(df1, hug_data, df5)
+    snomed(df1, hug_data, df5)
 
 
     string_search_single(df0, df2)
