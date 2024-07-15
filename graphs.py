@@ -70,51 +70,51 @@ display_stats(stats_3, "Search Scheme 3")
 # Plot precision in a histogram for comparison
 def plot_precision_histogram(stats_1, stats_2, stats_3):
     categories = list(stats_1.keys())
-    precision_1 = [stats_1[cat]['precision'] for cat in categories]
-    precision_2 = [stats_2[cat]['precision'] for cat in categories]
-    precision_3 = [stats_3[cat]['precision'] for cat in categories]
+    F1_1 = [stats_1[cat]['precision'] for cat in categories]
+    F1_2 = [stats_2[cat]['precision'] for cat in categories]
+    F1_3 = [stats_3[cat]['precision'] for cat in categories]
 
     x = range(len(categories))
 
     fig, ax = plt.subplots()
-    ax.bar([xs-0.2 for xs in x], precision_1, width=0.2, label='Scheme 1', align='center')
-    ax.bar(x, precision_2, width=0.2, label='Scheme 2', align='center')
-    ax.bar([xs+0.2 for xs in x], precision_3, width=0.2, label='Scheme 3', align='center')
+    ax.bar([xs-0.2 for xs in x], F1_1, width=0.2, label='Snomed CT', align='center')
+    ax.bar(x, F1_2, width=0.2, label='String single', align='center')
+    ax.bar([xs+0.2 for xs in x], F1_3, width=0.2, label='String multi', align='center')
 
     ax.set_xlabel('Categories')
     ax.set_ylabel('Precision')
-    ax.set_title('Precision Comparison between Search Scheme 1 and 2')
+    ax.set_title('Precision Comparison between Snomed CT, string search single and string search multi')
     ax.set_xticks(x)
     ax.set_xticklabels(categories, rotation=90)
     ax.legend()
 
     plt.tight_layout()
     plt.show()
-    plt.savefig("testprecision.pdf")
+    plt.savefig("precision.pdf")
 
 def plot_F1_histogram(stats_1, stats_2, stats_3):
     categories = list(stats_1.keys())
-    precision_1 = [stats_1[cat]['f1_score'] for cat in categories]
-    precision_2 = [stats_2[cat]['f1_score'] for cat in categories]
-    precision_3 = [stats_3[cat]['f1_score'] for cat in categories]
+    F1_1 = [stats_1[cat]['f1_score'] for cat in categories]
+    F1_2 = [stats_2[cat]['f1_score'] for cat in categories]
+    F1_3 = [stats_3[cat]['f1_score'] for cat in categories]
 
     x = range(len(categories))
 
     fig, ax = plt.subplots()
-    ax.bar([xs-0.2 for xs in x], precision_1, width=0.2, label='Scheme 1', align='center')
-    ax.bar(x, precision_2, width=0.2, label='Scheme 2', align='center')
-    ax.bar([xs+0.2 for xs in x], precision_3, width=0.2, label='Scheme 3', align='center')
+    ax.bar([xs-0.2 for xs in x], F1_1, width=0.2, label='Snomed CT', align='center')
+    ax.bar(x, F1_2, width=0.2, label='String single', align='center')
+    ax.bar([xs+0.2 for xs in x], F1_3, width=0.2, label='String multi', align='center')
 
     ax.set_xlabel('Categories')
-    ax.set_ylabel('Precision')
-    ax.set_title('Precision Comparison between Search Scheme 1 and 2')
+    ax.set_ylabel('F1 score')
+    ax.set_title('F1 score Comparison between Snomed CT, string search single and string search multi')
     ax.set_xticks(x)
     ax.set_xticklabels(categories, rotation=90)
     ax.legend()
 
     plt.tight_layout()
     plt.show()
-    plt.savefig("testf1.pdf")
+    plt.savefig("f1_score.pdf")
 
 # Plot data size in a histogram for comparison
 def plot_data_size_histogram(ground_truth, results_1, results_2, results_3):
@@ -127,10 +127,10 @@ def plot_data_size_histogram(ground_truth, results_1, results_2, results_3):
     x = range(len(categories))
 
     fig, ax = plt.subplots()
-    ax.bar(x, size_truth, width=0.2, label='Ground Truth', align='center')
-    ax.bar(x, size_1, width=0.2, label='Scheme 1', align='edge')
-    ax.bar(x, size_2, width=0.2, label='Scheme 2', align='edge', alpha=0.7)
-    ax.bar(x, size_3, width=-0.2, label='Scheme 2', align='edge', alpha=0.7)
+    ax.bar([xs-0.3 for xs in x], size_truth, width=0.2, label='ICD-10', align='center')
+    ax.bar([xs-0.1 for xs in x], size_1, width=0.2, label='Snomed CT', align='center')
+    ax.bar([xs+0.1 for xs in x], size_2, width=0.2, label='String single', align='center')
+    ax.bar([xs+0.3 for xs in x], size_3, width=-0.2, label='String multi', align='center')
 
     ax.set_xlabel('Categories')
     ax.set_ylabel('Data Size')
@@ -141,7 +141,7 @@ def plot_data_size_histogram(ground_truth, results_1, results_2, results_3):
 
     plt.tight_layout()
     plt.show()
-    plt.savefig("test.pdf")
+    plt.savefig("Datasize.pdf")
 
 # Generate the plots
 plot_precision_histogram(stats_1, stats_2, stats_3)
