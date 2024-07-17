@@ -1,17 +1,30 @@
 import json
+import os
+import re
+from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.metrics import precision_score, recall_score, f1_score
 
-# Function to load JSON data from a file
+now = datetime.now()
+
+# Fonction pour load les json
 def load_json(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         return json.load(file)
 
-# Load the JSON files
-ground_truth_icd = load_json('ground_truth_icd.json')
-search_results_string_single = load_json('search_results_string_single.json')
-search_results_string_multi = load_json('search_results_string_multi.json')
-search_results_snomed = load_json('search_results_snomed.json')
+# Fonction pour choisir les json les plus récents
+def get_latest_json(pattern, directory="json"):
+    files = [f for f in os.listdir(directory) if re.match(pattern, f)]
+    if not files:
+        raise FileNotFoundError(f"Pas de {pattern} trouvé")
+    files.sort(reverse=True)
+    return os.path.join(directory, files[0])
+
+# load des json les plus récent en appelant la fonction get_latest_json avec un pattern
+ICD_search = load_json(get_latest_json(r"\d{12}ICD_search\.json"))
+String_search_single = load_json(get_latest_json(r"\d{12}String_search_single\.json"))
+String_search_multi = load_json(get_latest_json(r"\d{12}String_search_multi\.json"))
+Snomed_search = load_json(get_latest_json(r"\d{12}Snomed_search\.json"))
 
 # Function to calculate precision, recall, and F1 score
 def calculate_stats(truth, results):
@@ -46,9 +59,9 @@ def calculate_stats(truth, results):
     return all_stats
 
 # Calculate statistics for search results 1 and 2
-stats_1 = calculate_stats(ground_truth_icd, search_results_snomed)
-stats_2 = calculate_stats(ground_truth_icd, search_results_string_single)
-stats_3 = calculate_stats(ground_truth_icd, search_results_string_multi)
+stats_1 = calculate_stats(ICD_search, Snomed_search)
+stats_2 = calculate_stats(ICD_search, String_search_single)
+stats_3 = calculate_stats(ICD_search, String_search_multi)
 
 # Display statistics
 def display_stats(stats, name):
@@ -90,7 +103,7 @@ def plot_precision_histogram(stats_1, stats_2, stats_3):
 
     plt.tight_layout()
     plt.show()
-    plt.savefig("precision.pdf")
+    plt.savefig("results/"+now.strftime("%Y%m%d%H%M")+"precision.pdf")
 
 def plot_F1_histogram(stats_1, stats_2, stats_3):
     categories = list(stats_1.keys())
@@ -114,7 +127,7 @@ def plot_F1_histogram(stats_1, stats_2, stats_3):
 
     plt.tight_layout()
     plt.show()
-    plt.savefig("f1_score.pdf")
+    plt.savefig("results/"+now.strftime("%Y%m%d%H%M")+"f1_score.pdf")
 
 # Plot data size in a histogram for comparison
 def plot_data_size_histogram(ground_truth, results_1, results_2, results_3):
@@ -141,9 +154,9 @@ def plot_data_size_histogram(ground_truth, results_1, results_2, results_3):
 
     plt.tight_layout()
     plt.show()
-    plt.savefig("Datasize.pdf")
+    plt.savefig("results/"+now.strftime("%Y%m%d%H%M")+"datasize.pdf")
 
 # Generate the plots
 plot_precision_histogram(stats_1, stats_2, stats_3)
 plot_F1_histogram(stats_1, stats_2, stats_3)
-plot_data_size_histogram(ground_truth_icd, search_results_snomed, search_results_string_single, search_results_string_multi)
+plot_data_size_histogram(ICD_search, Snomed_search, String_search_single, String_search_multi)

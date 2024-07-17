@@ -71,13 +71,13 @@ def snomed(df1, hug_data, df5):
         for key, value in dict.items():
             cid_set = set()
             for item in value:
-                if item in hug_data.keys():
+                if item in hug_data:
                     cid_set.update(hug_data[item])
             if dict == query_ecl_dict:
                 dict_label_ecl[key]=list(cid_set)
             else:
                 dict_label_question[key]=list(cid_set)
-    f = open("json/"+now.strftime("%Y%m%d%H%M")+"Step2_concepts_ecl.json","w")
+    f = open("json/"+now.strftime("%Y%m%d%H%M")+"Snomed_search.json","w")
     json.dump(dict_label_ecl, f)
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"Step2_concepts_question.json","w")
     json.dump(dict_label_question, f)
@@ -95,7 +95,7 @@ def string_search_single(df0, df2):
     for index, row in df2.iterrows():
         for i in hug_label:
             if str(row["string"]) in i:
-                if row["sous-question"] in dict_string.keys():
+                if row["sous-question"] in dict_string:
                     dict_string[row["sous-question"]].append(i)
                 else:
                     dict_string[row["sous-question"]] = [i]
@@ -112,10 +112,12 @@ def string_search_multi(df0, df3):
 
     dict_string = {}    
     for index, row in df3.iterrows():
+        strings = [row["string1"], row["string2"], row["string3"], row["string4"], row["string5"], 
+                   row["string6"], row["string7"], row["string8"], row["string9"], row["string10"]]
         for i in hug_label:
-            for string in row["string1"], row["string2"], row["string3"], row["string4"], row["string5"], row["string6"], row["string7"], row["string8"], row["string9"], row["string10"]:
+            for string in strings:
                 if str(string) in i:
-                    if row["sous-question"] in dict_string.keys():
+                    if row["sous-question"] in dict_string:
                         if i not in dict_string[row["sous-question"]]:
                             dict_string[row["sous-question"]].append(i)
                     else:
@@ -129,15 +131,19 @@ def icd_search(df0, df4):
     now = datetime.now()
     dict_icd = {}
     for index, row in df4.iterrows():
-        for i, r in df0.iterrows():
-            if isinstance (row["icd"], str): 
-                if str(row["icd"]) in str(r["ICD10_GM_2023"]):
-                    if row["sous-question"] in dict_icd.keys():
-                        dict_icd[row["sous-question"]].append(r["HUG_LABEL_FR"])
-                    else:
-                        dict_icd[row["sous-question"]] = [r["HUG_LABEL_FR"]]
-            else:
-                dict_icd[row["sous-question"]] = []
+        if isinstance (row["icd"], str): 
+            icd_terms = [term.strip() for term in row["icd"].split(",")]
+            for icd_term in icd_terms:
+                for i, r in df0.iterrows():
+                    if icd_term in str(r["ICD10_GM_2023"]):
+                        if row["sous-question"] in dict_icd:
+                            dict_icd[row["sous-question"]].append(r["HUG_LABEL_FR"])
+                        else:
+                            dict_icd[row["sous-question"]] = [r["HUG_LABEL_FR"]]
+        else:
+            dict_icd[row["sous-question"]] = []
+    for key in dict_icd:
+        dict_icd[key] = list(set(dict_icd[key]))
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"ICD_search.json","w")
     json.dump(dict_icd, f)
     print("étape ICD")
@@ -170,12 +176,6 @@ if __name__ == '__main__':
     string_search_multi(df0, df3)
 
     icd_search(df0, df4)
-
-
-
-
-
-
 
 
 
