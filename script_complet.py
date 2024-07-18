@@ -87,14 +87,12 @@ def snomed(df1, hug_data, df5):
 
 def string_search_single(df0, df2):
     now = datetime.now()
-    hug_label = []
-    for index, row in df0.iterrows():
-        hug_label.append(row["HUG_LABEL_FR"])
-
+    hug_label = [row["HUG_LABEL_FR"].lower() for index, row in df0.iterrows()]
+    
     dict_string = {}
     for index, row in df2.iterrows():
         for i in hug_label:
-            if str(row["string"]) in i:
+            if str(row["string"]).lower() in i:
                 if row["sous-question"] in dict_string:
                     dict_string[row["sous-question"]].append(i)
                 else:
@@ -106,9 +104,7 @@ def string_search_single(df0, df2):
 
 def string_search_multi(df0, df3):
     now = datetime.now()
-    hug_label = []
-    for index, row in df0.iterrows():
-        hug_label.append(row["HUG_LABEL_FR"])
+    hug_label = [row["HUG_LABEL_FR"].lower() for index, row in df0.iterrows()]
 
     dict_string = {}    
     for index, row in df3.iterrows():
@@ -116,7 +112,7 @@ def string_search_multi(df0, df3):
                    row["string6"], row["string7"], row["string8"], row["string9"], row["string10"]]
         for i in hug_label:
             for string in strings:
-                if str(string) in i:
+                if str(string).lower() in i:
                     if row["sous-question"] in dict_string:
                         if i not in dict_string[row["sous-question"]]:
                             dict_string[row["sous-question"]].append(i)
