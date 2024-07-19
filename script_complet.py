@@ -97,6 +97,9 @@ def string_search_single(df0, df2):
                     dict_string[row["sous-question"]].append(i)
                 else:
                     dict_string[row["sous-question"]] = [i]
+            else: 
+                if row["sous-question"] not in dict_string:
+                        dict_string[row["sous-question"]] = []
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"String_search_single.json","w")
     json.dump(dict_string, f)
     print("étape string single")
@@ -118,6 +121,9 @@ def string_search_multi(df0, df3):
                             dict_string[row["sous-question"]].append(i)
                     else:
                         dict_string[row["sous-question"]] = [i]
+                else:
+                    if row["sous-question"] not in dict_string:
+                        dict_string[row["sous-question"]] = []
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"String_search_multi.json","w")
     json.dump(dict_string, f)
     print("étape string multi")

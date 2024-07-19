@@ -73,6 +73,7 @@
     "pose de cathéter d'hémodialyse",
     "révision de cathéter d'hémodialyse"
   ],
+  "Scanner injecté": [],
   "insuffisance rénale": [
     "insuffisance rénale congénitale",
     "cardiopathie et néphropathie hypertensive",
@@ -143,6 +144,7 @@
     "insuffisance rénale dialysée sur néphropathie vasculaire",
     "insuffisance rénale du postpartum"
   ],
+  "Patient sous traitement anti-diabetique": [],
   "historique de greffe rénale": [
     "transplantation rénale",
     "reprise de transplantation de rein",
@@ -158,6 +160,7 @@
     "pneumonie communautaire hospitalisée et score de sévérité élevé",
     "suivi de l'hospitalisation"
   ],
+  "présence de citrobacter": [],
   "antibiotiques": [
     "réaction allergique à un antibiotique",
     "administration d'antibiotiques à titre prophylactique",
@@ -168,6 +171,8 @@
     "antécédent d'allergie à un antibiotique",
     "antécédent d'allergie à un médicament anti-infectieux"
   ],
+  "prélèvement bactérien": [],
+  "bactérie multi-résistante": [],
   "hypokaliémie": [
     "hypokaliémie",
     "syndrome d'hypokaliémie",
@@ -213,6 +218,7 @@
     "insuffisance rénale aiguë kdigo 2",
     "insuffisance rénale aiguë kdigo 3"
   ],
+  "angioplastie primaire": [],
   "diabète gestationnel ": [
     "gros foetus dû à un diabète gestationnel",
     "nourrisson d'une mère ayant présenté un diabète gestationnel",
@@ -252,6 +258,8 @@
   "anévrisme intracranien rompu": [
     "rupture d'anévrisme cérébral"
   ],
+  "lésions ischémiques cérébrales secondaires": [],
+  "score modifié de Rankin": [],
   "hypotension": [
     "hypotension secondaire à l'usage de médicaments",
     "hypotension intracrânienne iatrogène",
@@ -274,6 +282,8 @@
     "hypotension maternelle traitée par éphédrine",
     "hypotension néonatale"
   ],
+  "créatinémie": [],
+  "présence de citrobacter dans le sang": [],
   "présence de bactérie dans le sang": [
     "bactériémie",
     "bactériémie à bacilles gram négatifs",
@@ -321,6 +331,10 @@
     "bactériémie à staphylococcus hominis",
     "bactériémie à bacteroides ovatus"
   ],
+  "bactérie gram négatif": [],
+  "antibiogramme": [],
+  "virémie BK positive post greffe": [],
+  "traitement de nicotinamide": [],
   "éclampsie": [
     "morbidité périnatale due à la pré-éclampsie maternelle",
     "morbidité périnatale due à une pré-éclampsie",
@@ -333,5 +347,7 @@
     "déclenchement pour pré-éclampsie",
     "maturation provocation pour prééclampsie",
     "prééclampsie du post-partum"
-  ]
+  ],
+  "traitement stoppé ": [],
+  "bactérie résistante aux bêta-lactamine": []
 }
