@@ -87,6 +87,10 @@ def plot_precision_histogram(stats_1, stats_2, stats_3):
     F1_2 = [stats_2[cat]['precision'] for cat in categories]
     F1_3 = [stats_3[cat]['precision'] for cat in categories]
 
+    for l in [F1_1, F1_2, F1_3]:
+        l = [i for i in l if i != 0]
+        print(sum(l)/len(l))
+
     x = range(len(categories))
 
     fig, ax = plt.subplots()
@@ -94,12 +98,12 @@ def plot_precision_histogram(stats_1, stats_2, stats_3):
     ax.bar(x, F1_2, width=0.2, label='String single', align='center')
     ax.bar([xs+0.2 for xs in x], F1_3, width=0.2, label='String multi', align='center')
 
-    ax.set_xlabel('Categories')
-    ax.set_ylabel('Precision')
-    ax.set_title('Precision Comparison between Snomed CT, string search single and string search multi')
+    ax.set_xlabel('Categories', fontsize = 9)
+    ax.set_ylabel('Precision', fontsize = 9)
+    ax.set_title('Precision Comparison between Snomed CT, string search single and string search multi', fontsize = 9)
     ax.set_xticks(x)
-    ax.set_xticklabels(categories, rotation=90)
-    ax.legend()
+    ax.set_xticklabels(categories, rotation=90, fontsize = 9)
+    ax.legend(loc="upper right", fontsize = "x-small")
 
     plt.tight_layout()
     plt.show()
@@ -110,6 +114,13 @@ def plot_F1_histogram(stats_1, stats_2, stats_3):
     F1_1 = [stats_1[cat]['f1_score'] for cat in categories]
     F1_2 = [stats_2[cat]['f1_score'] for cat in categories]
     F1_3 = [stats_3[cat]['f1_score'] for cat in categories]
+    
+    for l in [F1_1, F1_2, F1_3]:
+        l = [i for i in l if i != 0]
+        print(sum(l)/len(l))
+
+        
+    print(F1_1)
 
     x = range(len(categories))
 
@@ -118,12 +129,12 @@ def plot_F1_histogram(stats_1, stats_2, stats_3):
     ax.bar(x, F1_2, width=0.2, label='String single', align='center')
     ax.bar([xs+0.2 for xs in x], F1_3, width=0.2, label='String multi', align='center')
 
-    ax.set_xlabel('Categories')
-    ax.set_ylabel('F1 score')
-    ax.set_title('F1 score Comparison between Snomed CT, string search single and string search multi')
+    ax.set_xlabel('Categories', fontsize = 9)
+    ax.set_ylabel('F1 score', fontsize = 9)
+    ax.set_title('F1 score Comparison between Snomed CT, string search single and string search multi', fontsize = 9)
     ax.set_xticks(x)
-    ax.set_xticklabels(categories, rotation=90)
-    ax.legend()
+    ax.set_xticklabels(categories, rotation=90, fontsize = 9)
+    ax.legend(loc="upper right", fontsize = "x-small")
 
     plt.tight_layout()
     plt.show()
@@ -145,12 +156,12 @@ def plot_data_size_histogram(ground_truth, results_1, results_2, results_3):
     ax.bar([xs+0.1 for xs in x], size_2, width=0.2, label='String single', align='center')
     ax.bar([xs+0.3 for xs in x], size_3, width=-0.2, label='String multi', align='center')
 
-    ax.set_xlabel('Categories')
-    ax.set_ylabel('Data Size')
-    ax.set_title('Data Size Comparison between Ground Truth, Search Scheme 1, and 2')
+    ax.set_xlabel('Categories', fontsize = 9)
+    ax.set_ylabel('Data Size', fontsize = 9)
+    ax.set_title('Data Size Comparison between ICD-10, SNOMED CT, String single, and String multi', fontsize = 9)
     ax.set_xticks(x)
-    ax.set_xticklabels(categories, rotation=90)
-    ax.legend()
+    ax.set_xticklabels(categories, rotation=90, fontsize = 9)
+    ax.legend(loc="upper right", fontsize = "x-small")
 
     plt.tight_layout()
     plt.show()

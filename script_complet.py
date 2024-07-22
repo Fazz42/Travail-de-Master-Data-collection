@@ -7,18 +7,15 @@ import re
 
 URL = 'http://localhost:8080/MAIN/concepts?ecl='
 
-
 def get_results_from_ecl(ecl):
     response = requests.get(URL + ecl).json()
     response_agg = requests.get(URL + ecl).json()
     while 'searchAfter' in response:
         search_after = response['searchAfter']
         response_next = requests.get(URL + ecl + '&searchAfter=' + search_after).json()
-        
         # append new page to response.json()
         response_agg['items'].extend(response_next['items'])
         response = response_next
-
     return response_agg
 
 
@@ -37,11 +34,7 @@ def hugdata():
 
 def snomed(df1, hug_data, df5):
     now = datetime.now()
-
     query_ecl_dict = {}
-    query_question_dict = {}
-
-
     for id, i in enumerate(df5.iloc):
         ecl = i["ecl_query"]
         if isinstance(ecl, str):
@@ -49,46 +42,24 @@ def snomed(df1, hug_data, df5):
             query_ecl_dict[i["sous-question"]] = [it['conceptId'] for it in ecl_res['items']]
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"Step1_api_ecl.json","w")
     json.dump(query_ecl_dict, f)
-
-
-    for id, i in enumerate(df1.iloc):
-        cid_set = set()
-        for ecl in [i["ecl1"], i["ecl2"], i["ecl3"], i["ecl4"]]:
-            if isinstance(ecl, str):
-                ecl_res=get_results_from_ecl(ecl)
-                for it in ecl_res["items"]:
-                    cid_set.add(it["conceptId"])
-        query_question_dict[i["Question"]]=list(cid_set)
-    f = open("json/"+now.strftime("%Y%m%d%H%M")+"Step1_api_question.json","w")
-    json.dump(query_question_dict, f)
-
     print("étape 1")
 
     dict_label_ecl = {}
-    dict_label_question = {}
-    
-    for dict in [query_ecl_dict, query_question_dict]:
-        for key, value in dict.items():
-            cid_set = set()
-            for item in value:
-                if item in hug_data:
-                    cid_set.update(hug_data[item])
-            if dict == query_ecl_dict:
-                dict_label_ecl[key]=list(cid_set)
-            else:
-                dict_label_question[key]=list(cid_set)
+    for key, value in query_ecl_dict.items():
+        cid_set = set()
+        for item in value:
+            if item in hug_data:
+                cid_set.update(hug_data[item])
+        dict_label_ecl[key]=list(cid_set)
     f = open("json/"+now.strftime("%Y%m%d%H%M")+"Snomed_search.json","w")
     json.dump(dict_label_ecl, f)
-    f = open("json/"+now.strftime("%Y%m%d%H%M")+"Step2_concepts_question.json","w")
-    json.dump(dict_label_question, f)
-
     print("étape 2")
 
 
 def string_search_single(df0, df2):
     now = datetime.now()
     hug_label = [row["HUG_LABEL_FR"].lower() for index, row in df0.iterrows()]
-    
+
     dict_string = {}
     for index, row in df2.iterrows():
         for i in hug_label:
