@@ -10,13 +10,17 @@ with open('json/precision/Snomed_search.json', 'r') as f:
 
 with open('json/precision/Snomed_search trié.json', 'r') as f:
     ground_truth = json.load(f)
-
+precision_moyenne = []
 precision_scores = {}
 for key in predicted:
     if key in ground_truth and ground_truth[key] and predicted[key]:
         precision_scores[key] = len(ground_truth[key])/len(predicted[key])
+        precision_moyenne.append(len(ground_truth[key])/len(predicted[key]))
+        print(key, precision_scores[key])
     else:
         precision_scores[key] = None 
+precision_moyenne = sum(precision_moyenne) / len(precision_moyenne)
+print(precision_moyenne )
 
 keys = list(precision_scores.keys())
 values = list(precision_scores.values())

@@ -19,6 +19,7 @@ for key in predicted:
     if key in ground_truth and ground_truth[key] and predicted[key]:  # Check if there are values
         precision_scores[key] = len(ground_truth[key])/len(predicted[key])
         precision_moyenne.append(len(ground_truth[key])/len(predicted[key]))
+        print(key, precision_scores[key])
     else:
         precision_scores[key] = None  # Indicate no data
 precision_moyenne = sum(precision_moyenne) / len(precision_moyenne)

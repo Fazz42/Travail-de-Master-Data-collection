@@ -26,7 +26,7 @@ String_search_single = load_json(get_latest_json(r"\d{12}String_search_single\.j
 String_search_multi = load_json(get_latest_json(r"\d{12}String_search_multi\.json"))
 Snomed_search = load_json(get_latest_json(r"\d{12}Snomed_search\.json"))
 
-# Function to calculate precision, recall, and F1 score
+# Fonction pour calculer precision, recall, et F1 score
 def calculate_stats(truth, results):
     all_stats = {}
     for key in truth:
@@ -58,12 +58,10 @@ def calculate_stats(truth, results):
             }
     return all_stats
 
-# Calculate statistics for search results 1 and 2
 stats_1 = calculate_stats(ICD_search, Snomed_search)
 stats_2 = calculate_stats(ICD_search, String_search_single)
 stats_3 = calculate_stats(ICD_search, String_search_multi)
 
-# Display statistics
 def display_stats(stats, name):
     print(f"Statistics for {name}:")
     for key, value in stats.items():
@@ -80,7 +78,7 @@ display_stats(stats_1, "Search Scheme 1")
 display_stats(stats_2, "Search Scheme 2")
 display_stats(stats_3, "Search Scheme 3")
 
-# Plot precision in a histogram for comparison
+# precision histograme
 def plot_precision_histogram(stats_1, stats_2, stats_3):
     categories = list(stats_1.keys())
     F1_1 = [stats_1[cat]['precision'] for cat in categories]
@@ -98,9 +96,9 @@ def plot_precision_histogram(stats_1, stats_2, stats_3):
     ax.bar(x, F1_2, width=0.2, label='String single', align='center')
     ax.bar([xs+0.2 for xs in x], F1_3, width=0.2, label='String multi', align='center')
 
-    ax.set_xlabel('Categories', fontsize = 9)
-    ax.set_ylabel('Precision', fontsize = 9)
-    ax.set_title('Precision Comparison between Snomed CT, string search single and string search multi', fontsize = 9)
+    ax.set_xlabel('Sous-questions', fontsize = 9)
+    ax.set_ylabel('Précision', fontsize = 9)
+    ax.set_title('', fontsize = 9)
     ax.set_xticks(x)
     ax.set_xticklabels(categories, rotation=90, fontsize = 9)
     ax.legend(loc="upper right", fontsize = "x-small")
@@ -129,9 +127,9 @@ def plot_F1_histogram(stats_1, stats_2, stats_3):
     ax.bar(x, F1_2, width=0.2, label='String single', align='center')
     ax.bar([xs+0.2 for xs in x], F1_3, width=0.2, label='String multi', align='center')
 
-    ax.set_xlabel('Categories', fontsize = 9)
-    ax.set_ylabel('F1 score', fontsize = 9)
-    ax.set_title('F1 score Comparison between Snomed CT, string search single and string search multi', fontsize = 9)
+    ax.set_xlabel('Sous-questions', fontsize = 9)
+    ax.set_ylabel('Score F1', fontsize = 9)
+    ax.set_title('', fontsize = 9)
     ax.set_xticks(x)
     ax.set_xticklabels(categories, rotation=90, fontsize = 9)
     ax.legend(loc="upper right", fontsize = "x-small")
@@ -156,9 +154,9 @@ def plot_data_size_histogram(ground_truth, results_1, results_2, results_3):
     ax.bar([xs+0.1 for xs in x], size_2, width=0.2, label='String single', align='center')
     ax.bar([xs+0.3 for xs in x], size_3, width=-0.2, label='String multi', align='center')
 
-    ax.set_xlabel('Categories', fontsize = 9)
-    ax.set_ylabel('Data Size', fontsize = 9)
-    ax.set_title('Data Size Comparison between ICD-10, SNOMED CT, String single, and String multi', fontsize = 9)
+    ax.set_xlabel('Sous-questions', fontsize = 9)
+    ax.set_ylabel('Nombre de libellés obtenus', fontsize = 9)
+    ax.set_title('', fontsize = 9)
     ax.set_xticks(x)
     ax.set_xticklabels(categories, rotation=90, fontsize = 9)
     ax.legend(loc="upper right", fontsize = "x-small")

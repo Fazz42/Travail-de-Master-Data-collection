@@ -14,12 +14,15 @@ with open('json/precision/ICD_search trié.json', 'r') as f:
 
 # Calculate precision for each key
 precision_scores = {}
+precision_moyenne = []
 for key in predicted:
     if key in ground_truth and ground_truth[key] and predicted[key]:  # Check if there are values
         precision_scores[key] = len(ground_truth[key])/len(predicted[key])
+        precision_moyenne.append(len(ground_truth[key])/len(predicted[key]))
     else:
         precision_scores[key] = None  # Indicate no data
-
+precision_moyenne = sum(precision_moyenne) / len(precision_moyenne)
+print(precision_moyenne )
 # Plot the precision scores
 keys = list(precision_scores.keys())
 values = list(precision_scores.values())
